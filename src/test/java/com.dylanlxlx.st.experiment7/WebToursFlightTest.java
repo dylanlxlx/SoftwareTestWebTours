@@ -59,7 +59,7 @@ public class WebToursFlightTest {
      * @param findFlight     航班信息
      * @param address1       居住地信息
      * @param address2       居住城市信息
-     * @param passengers     乘客民
+     * @param passengers     乘客名
      * @param creditCard     信用卡号
      * @param expDate        有效日期
      * @param info1          检查信息1
