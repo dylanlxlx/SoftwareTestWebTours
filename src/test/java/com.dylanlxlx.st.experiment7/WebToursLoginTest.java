@@ -26,7 +26,7 @@ public class WebToursLoginTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/logintestcase/CorrectUserNamePsd.csv")
+    @CsvFileSource(resources = "/logintestcase/正确用户名密码用例.csv")
     public void testLoginSuccess(String userName, String password) {
         // 打开登录页面
         driver.get(baseUrl);
@@ -53,7 +53,7 @@ public class WebToursLoginTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/logintestcase/IncorrectUserNamePsd.csv")
+    @CsvFileSource(resources = "/logintestcase/不正确用户名密码用例.csv")
     public void testLoginFailure(String userName, String password) {
         // 打开登录页面
         driver.get(baseUrl);
