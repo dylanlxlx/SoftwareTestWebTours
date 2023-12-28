@@ -34,7 +34,7 @@ public class WebToursCheckTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/check_test_case/查询功能测试用例.csv")
-    public void testWebToursCheck(String username, String password, String numPassengers, String Seat, String address1, String address2, String passengers, String info, String totalCharge, String cardNum) {
+    public void testWebToursCheck(String id, String username, String password, String numPassengers, String Seat, String address1, String address2, String passengers, String info, String totalCharge, String cardNum) {
         driver.get(baseUrl);
         driver.switchTo().frame(1);
         driver.switchTo().frame(0);
@@ -52,18 +52,19 @@ public class WebToursCheckTest {
         driver.switchTo().parentFrame();
         driver.switchTo().frame(1);
         String peopleNum = Objects.equals(numPassengers, "1") ? "A" : numPassengers;
-        String[] passagerName = passengers.split(" ");
+        String[] passagerName = passengers.split("#");
         passengers = passagerName[0];
         for (int i = 1; i < passagerName.length; i++) {
             passengers += "\n" + passagerName[i];
         }
-        assertEquals("  " + peopleNum + " " + Seat + " class tickets for :", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Itinerary'])[1]/following::b[3]")).getText());
-        assertEquals(passengers, driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Itinerary'])[1]/following::center[2]")).getText());
-        assertEquals("Jojo Bean\n" + address1 + "\n" + address2 + "\n\nTotal Charge: " + totalCharge + "\n(CC: x-" + cardNum + ")", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Invoice sent to:'])[1]/following::td[1]")).getText());
+        assertEquals("  " + peopleNum + " " + Seat + " class tickets for :", driver.findElement(By.xpath("/html/body/blockquote/form/center/table[1]/tbody/tr["+id+"]/td[2]/b")).getText());
+        assertEquals(passengers, driver.findElement(By.xpath("/html/body/blockquote/form/center/table[1]/tbody/tr["+id+"]/td[2]/center")).getText());
+        assertEquals("Jojo Bean\n" + address1 + "\n" + address2 + "\n\nTotal Charge: " + totalCharge + "\n(CC: x-" + cardNum + ")", driver.findElement(By.xpath("/html/body/blockquote/form/center/table[1]/tbody/tr["+id+"]/td[4]/center/table/tbody/tr/td")).getText());
         String[] infoTemp = info.split("#");
         if (infoTemp.length > 1)
             info = infoTemp[0] + "\n" + infoTemp[1];
-        assertEquals(info, driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Flight Details:'])[1]/following::center[1]")).getText());
+        id = Integer.parseInt(id)+1+"";
+        assertEquals(info, driver.findElement(By.xpath("/html/body/blockquote/form/center/table[1]/tbody/tr["+id+"]/td/center")).getText());
     }
 
     @AfterEach
