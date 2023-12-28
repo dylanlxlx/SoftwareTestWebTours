@@ -71,6 +71,9 @@ public class WebToursFlightTest<cost> {
                      String numPassengers, int roundtrip, String address1, String address2, String passengers,
                      String creditCard, String expDate, String info1, String info2, String info3, String info4) throws Exception {
         String[] passenger = passengers.split(" ");
+        String[] info = info2.split("#");
+        if (info.length > 1)
+            info2 = info[0] + "\n" + info[1];
         driver.get(baseUrl);
         driver.switchTo().frame(1);
         driver.switchTo().frame(0);
