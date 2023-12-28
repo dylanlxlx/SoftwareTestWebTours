@@ -1,21 +1,20 @@
 package com.dylanlxlx.st.experiment7;
 
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WebToursLoginTest {
     private WebDriver driver;
     private String baseUrl;
-    private StringBuffer verificationErrors = new StringBuffer();
     JavascriptExecutor js;
 
     @BeforeEach
@@ -26,57 +25,59 @@ public class WebToursLoginTest {
         js = (JavascriptExecutor) driver;
     }
 
-    @Test
-    public void testWebToursLogin() {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/logintestcase/CorrectUserNamePsd.csv")
+    public void testLoginSuccess(String userName, String password) {
+        // 打开登录页面
         driver.get(baseUrl);
         driver.switchTo().frame(1);
         driver.switchTo().frame(0);
+
+        // 输入用户名和密码
         driver.findElement(By.name("username")).click();
         driver.findElement(By.name("username")).clear();
-        driver.findElement(By.name("username")).sendKeys("5120216063");
+        driver.findElement(By.name("username")).sendKeys(userName);
         driver.findElement(By.name("password")).click();
         driver.findElement(By.name("password")).clear();
-        driver.findElement(By.name("password")).sendKeys("ww");
+        driver.findElement(By.name("password")).sendKeys(password);
+
+        // 提交表单
         driver.findElement(By.name("login")).click();
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=1 | ]]
+
         driver.switchTo().parentFrame();
         driver.switchTo().frame(1);
-        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Error'])[1]/following::h3[1]")).click();
-        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Error'])[1]/following::h3[1]")).click();
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=0 | ]]
-        driver.switchTo().parentFrame();
-        driver.switchTo().frame(0);
-        driver.findElement(By.name("username")).click();
-        driver.findElement(By.name("username")).click();
-        //ERROR: Caught exception [ERROR: Unsupported command [doubleClick | name=username | ]]
-        driver.findElement(By.name("username")).clear();
-        driver.findElement(By.name("username")).sendKeys("jojo");
-        driver.findElement(By.name("password")).click();
-        driver.findElement(By.name("password")).click();
-        //ERROR: Caught exception [ERROR: Unsupported command [doubleClick | name=password | ]]
-        driver.findElement(By.name("password")).clear();
-        driver.findElement(By.name("password")).sendKeys("bean");
-        driver.findElement(By.name("password")).sendKeys(Keys.ENTER);
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=1 | ]]
-        driver.switchTo().parentFrame();
-        driver.switchTo().frame(1);
-        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='jojo'])[1]/preceding::p[1]")).click();
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
-        //ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=0 | ]]
-        driver.switchTo().parentFrame();
-        driver.switchTo().frame(0);
-        driver.findElement(By.xpath("//img[@alt='SignOff Button']")).click();
+        // 检查是否登录成功
+        String bodyText = driver.findElement(By.tagName("body")).getText();
+        assertTrue(bodyText.contains("Welcome,"), "登录成功的断言信息");
+        assertTrue(bodyText.contains(userName), "登陆成功用户名信息");
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/logintestcase/IncorrectUserNamePsd.csv")
+    public void testLoginFailure(String userName, String password) {
+        // 打开登录页面
+        driver.get(baseUrl);
+        driver.switchTo().frame(1);
+        driver.switchTo().frame(0);
+
+        // 输入错误的用户名和密码
+        WebElement usernameField = driver.findElement(By.name("username"));
+        WebElement passwordField = driver.findElement(By.name("password"));
+        usernameField.sendKeys(userName);
+        passwordField.sendKeys(password);
+
+        // 提交表单
+        driver.findElement(By.name("login")).click();
+        driver.switchTo().parentFrame();
+        driver.switchTo().frame(1);
+        // 检查是否显示错误信息
+        String bodyText = driver.findElement(By.tagName("body")).getText();
+        assertTrue(bodyText.contains("Error - Incorrect Password"), "登录失败的断言信息");
+    }
+
 
     @AfterEach
     public void tearDown() {
         driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!verificationErrorString.isEmpty()) {
-            fail(verificationErrorString);
-        }
     }
 }
