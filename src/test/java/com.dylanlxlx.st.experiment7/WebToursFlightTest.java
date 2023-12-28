@@ -38,7 +38,7 @@ public class WebToursFlightTest<cost> {
     @BeforeEach
     public void setUp() throws Exception {
         baseUrl = "http://localhost:1080/WebTours/";
-        System.setProperty("webdriver.chrome.driver", "D:\\chromedriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\71554\\Desktop\\chromedriver\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
@@ -56,7 +56,7 @@ public class WebToursFlightTest<cost> {
      * @param roundtrip     是否往返
      * @param address1      居住地信息
      * @param address2      居住城市信息
-     * @param passengers    乘客民
+     * @param passengers    乘客名
      * @param creditCard    信用卡号
      * @param expDate       有效日期
      * @param info1         检查信息1
