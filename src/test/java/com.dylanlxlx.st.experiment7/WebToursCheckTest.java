@@ -16,13 +16,33 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-
+/**
+ *
+ */
 public class WebToursCheckTest {
+    /**
+     *
+     */
     private WebDriver driver;
+
+    /**
+     *
+     */
     private String baseUrl;
+
+    /**
+     *
+     */
     private final StringBuffer verificationErrors = new StringBuffer();
+
+    /**
+     *
+     */
     JavascriptExecutor js;
 
+    /**
+     *
+     */
     @BeforeEach
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\71554\\Desktop\\chromedriver\\chromedriver.exe");
@@ -32,6 +52,20 @@ public class WebToursCheckTest {
         js = (JavascriptExecutor) driver;
     }
 
+    /**
+     *
+     * @param id
+     * @param username
+     * @param password
+     * @param numPassengers
+     * @param Seat
+     * @param address1
+     * @param address2
+     * @param passengers
+     * @param info
+     * @param totalCharge
+     * @param cardNum
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/check_test_case/查询功能测试用例.csv")
     public void testWebToursCheck(String id, String username, String password, String numPassengers, String Seat, String address1, String address2, String passengers, String info, String totalCharge, String cardNum) {
@@ -67,6 +101,9 @@ public class WebToursCheckTest {
         assertEquals(info, driver.findElement(By.xpath("/html/body/blockquote/form/center/table[1]/tbody/tr["+id+"]/td/center")).getText());
     }
 
+    /**
+     *
+     */
     @AfterEach
     public void tearDown() {
         driver.quit();

@@ -15,6 +15,9 @@ import org.openqa.selenium.support.ui.Select;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * 订票功能测试类
+ */
 public class WebToursFlightTest {
     /**
      * 驱动声明.
@@ -33,7 +36,6 @@ public class WebToursFlightTest {
 
     /**
      * 初始化driver以及baseUrl.
-     *
      * @throws Exception 无
      */
     @BeforeEach
@@ -171,7 +173,6 @@ public class WebToursFlightTest {
 
     /**
      * 输出错误信息.
-     *
      * @throws Exception 无
      */
     @AfterEach

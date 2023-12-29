@@ -12,11 +12,28 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ *
+ */
 public class WebToursLoginTest {
+    /**
+     *
+     */
     private WebDriver driver;
+
+    /**
+     *
+     */
     private String baseUrl;
+
+    /**
+     *
+     */
     JavascriptExecutor js;
 
+    /**
+     *
+     */
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
@@ -25,6 +42,11 @@ public class WebToursLoginTest {
         js = (JavascriptExecutor) driver;
     }
 
+    /**
+     *
+     * @param userName
+     * @param password
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/logintestcase/正确用户名密码用例.csv")
     public void testLoginSuccess(String userName, String password) {
@@ -52,6 +74,11 @@ public class WebToursLoginTest {
         assertTrue(bodyText.contains(userName), "登陆成功用户名信息");
     }
 
+    /**
+     *
+     * @param userName
+     * @param password
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/logintestcase/不正确用户名密码用例.csv")
     public void testLoginFailure(String userName, String password) {
@@ -75,7 +102,9 @@ public class WebToursLoginTest {
         assertTrue(bodyText.contains("Error - Incorrect Password"), "登录失败的断言信息");
     }
 
-
+    /**
+     *
+     */
     @AfterEach
     public void tearDown() {
         driver.quit();

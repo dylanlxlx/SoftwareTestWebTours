@@ -13,11 +13,28 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ *
+ */
 public class WebToursSignupTest {
+    /**
+     *
+     */
     private WebDriver driver;
+
+    /**
+     *
+     */
     private String baseUrl;
+
+    /**
+     *
+     */
     JavascriptExecutor js;
 
+    /**
+     *
+     */
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
@@ -26,11 +43,24 @@ public class WebToursSignupTest {
         js = (JavascriptExecutor) driver;
     }
 
+    /**
+     *
+     */
     @AfterEach
     public void tearDown() {
         driver.quit();
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param confirmPassword
+     * @param firstName
+     * @param lastName
+     * @param streetAddress
+     * @param cityStateZip
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/signuptestcase/注册新用户信息用例.csv")
     public void testSignupSuccess(String username, String password, String confirmPassword, String firstName, String lastName, String streetAddress, String cityStateZip) {
@@ -68,6 +98,13 @@ public class WebToursSignupTest {
         assertTrue(bodyText.contains("Thank you, " + username), "注册成功的断言信息");
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param confirmPassword
+     * @param warning
+     */
     @ParameterizedTest
     @CsvFileSource(resources = "/signuptestcase/注册新用户无效信息用例.csv")
     public void testSignupFail(String username, String password, String confirmPassword, String warning) {

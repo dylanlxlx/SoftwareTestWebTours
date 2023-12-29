@@ -11,11 +11,28 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ *
+ */
 public class WebToursSignoffTest {
+    /**
+     *
+     */
     private WebDriver driver;
+
+    /**
+     *
+     */
     private String baseUrl;
+
+    /**
+     *
+     */
     JavascriptExecutor js;
 
+    /**
+     *
+     */
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
@@ -24,11 +41,17 @@ public class WebToursSignoffTest {
         js = (JavascriptExecutor) driver;
     }
 
+    /**
+     *
+     */
     @AfterEach
     public void tearDown() {
         driver.quit();
     }
 
+    /**
+     *
+     */
     @Test
     public void testSignoff() {
         driver.get(baseUrl);
